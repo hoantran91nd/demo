@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "960069773959",
+    "project_id": "pega-9f554",
+    "storage_bucket": "pega-9f554.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960069773959:android:741a3488c3aefca413e622",
+        "android_client_info": {
+          "package_name": "com.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960069773959-updfbguiq8r0oaisibdgi5mitdrd62qt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-gUUqhgCAb8QBolwSU6caGx6ZGEIe0k8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960069773959-updfbguiq8r0oaisibdgi5mitdrd62qt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

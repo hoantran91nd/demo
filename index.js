@@ -2,6 +2,7 @@ import {AppRegistry} from 'react-native';
 import {RNAndroidNotificationListenerHeadlessJsName} from 'react-native-android-notification-listener';
 
 import {name as appName} from './app.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import App from './App';
 
 /**
@@ -36,7 +37,9 @@ const headlessNotificationListener = async ({notification}: any) => {
      * Here you could store the notifications in a external API.
      * I'm using AsyncStorage here as an example.
      */
-    console.log('notification', notification);
+    console.log(notification);
+    await AsyncStorage.setItem('@lastNotification', notification);
+    // DeviceEventEmitter.emit('notification', notification);
   }
 };
 

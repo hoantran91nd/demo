@@ -10,10 +10,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.18.1",
+    "@react-native-firebase/app": "^17.5.0",
+    "@react-native-firebase/firestore": "^17.5.0",
+    "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-native": "0.71.7",
-    "react-native-android-notification-listener": "^5.0.1",
-    "react-native-ble-manager": "^10.0.2"
+    "react-native-android-notification-listener": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -22,6 +25,7 @@
     "@react-native-community/eslint-config": "^3.2.0",
     "@tsconfig/react-native": "^2.0.2",
     "@types/jest": "^29.2.1",
+    "@types/lodash": "^4.14.194",
     "@types/react": "^18.0.24",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",

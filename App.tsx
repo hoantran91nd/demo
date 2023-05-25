@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   SafeAreaView,
   Text,
@@ -12,6 +12,9 @@ import {
   StyleSheet,
 } from 'react-native';
 import RNAndroidNotificationListener from 'react-native-android-notification-listener';
+import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {isEqual} from 'lodash';
 
 const {width} = Dimensions.get('screen');
 
@@ -131,19 +134,48 @@ function App() {
     }
   };
 
-  const handleCheckNotificationInterval = async () => {
-    // const lastStoredNotification = await AsyncStorage.getItem(
-    //   '@lastNotification',
-    // );
-
-    // if (lastStoredNotification) {
-    //   /**
-    //    * As the notification is a JSON string,
-    //    * here I just parse it
-    //    */
-    //   setLastNotification(JSON.parse(lastStoredNotification));
-    // }
-  };
+  const handleCheckNotificationInterval = useCallback(
+    async (notification: {title: any; text: any; bigText: any}) => {
+      const lastStoredNotification = await AsyncStorage.getItem(
+        '@lastNotification',
+      );
+      if (lastStoredNotification) {
+        /**
+         * As the notification is a JSON string,
+         * here I just parse it
+         */
+        if (
+          !isEqual(
+            notification?.title,
+            JSON.parse(lastStoredNotification)?.title,
+          ) ||
+          !isEqual(
+            notification?.text,
+            JSON.parse(lastStoredNotification)?.text,
+          ) ||
+          (!isEqual(
+            notification?.bigText,
+            JSON.parse(lastStoredNotification)?.bigText,
+          ) &&
+            JSON.parse(lastStoredNotification)?.app !== 'com.android.systemui')
+        ) {
+          setLastNotification(JSON.parse(lastStoredNotification));
+          firestore()
+            .collection('test')
+            .doc('user_1')
+            .set({
+              title: JSON.parse(lastStoredNotification)?.title,
+              text: JSON.parse(lastStoredNotification)?.text,
+              bigText: JSON.parse(lastStoredNotification)?.bigText,
+            })
+            .then(() => {
+              console.log('User added!');
+            });
+        }
+      }
+    },
+    [lastNotification],
+  );
 
   useEffect(() => {
     clearInterval(interval);
@@ -153,7 +185,10 @@ function App() {
      * there is a notification in AsyncStorage
      * so I can show it in the application
      */
-    interval = setInterval(handleCheckNotificationInterval, 3000);
+    interval = setInterval(
+      () => handleCheckNotificationInterval(lastNotification),
+      3000,
+    );
 
     const listener = AppState.addEventListener('change', handleAppStateChange);
 
@@ -163,12 +198,12 @@ function App() {
       clearInterval(interval);
       listener.remove();
     };
-  }, []);
+  }, [lastNotification]);
 
-  const hasGroupedMessages =
-    lastNotification &&
-    lastNotification.groupedMessages &&
-    lastNotification.groupedMessages.length > 0;
+  // const hasGroupedMessages =
+  //   lastNotification &&
+  //   lastNotification.groupedMessages &&
+  //   lastNotification.groupedMessages.length > 0;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -188,7 +223,7 @@ function App() {
           disabled={hasPermission}
         />
       </View>
-      <View style={styles.notificationsWrapper}>
+      {/* <View style={styles.notificationsWrapper}>
         {lastNotification && !hasGroupedMessages && (
           <ScrollView style={styles.scrollView}>
             <Notification {...lastNotification} />
@@ -203,7 +238,7 @@ function App() {
             )}
           />
         )}
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 }
