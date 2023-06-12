@@ -28,7 +28,7 @@ function App() {
     const getNotiFromStore = async () => {
       const data = await AsyncStorage.getItem('notiCode');
       if (data) {
-        setNotiCode(JSON.parse(data)?.toString());
+        setNotiCode(data?.toString());
       }
     };
     getNotiFromStore();
