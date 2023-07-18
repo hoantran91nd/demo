@@ -34,6 +34,7 @@ function App() {
     distanceLeft: undefined,
     odo: undefined,
     position: undefined,
+    time: undefined,
   });
 
   useEffect(() => {
@@ -186,6 +187,10 @@ function App() {
           <View style={styles.flex}>
             <Text style={styles.text}>Số Km đã đi được:</Text>
             <Text style={styles.text}>{data?.odo} Km</Text>
+          </View>
+          <View style={styles.flex}>
+            <Text style={styles.text}>Cập nhật lần cuối:</Text>
+            <Text style={styles.text}>{data?.time}</Text>
           </View>
           <View style={styles.flex}>
             <Text style={styles.text}>Mã nhận thông báo:</Text>
