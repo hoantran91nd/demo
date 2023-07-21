@@ -88,17 +88,18 @@ function App() {
             JSON.parse(lastStoredNotification)?.app !== 'com.android.systemui')
         ) {
           setLastNotification(JSON.parse(lastStoredNotification));
-          firestore()
-            .collection('pega')
-            .doc(notiCode)
-            .set({
-              title: JSON.parse(lastStoredNotification)?.title,
-              text: JSON.parse(lastStoredNotification)?.text,
-              bigText: JSON.parse(lastStoredNotification)?.bigText,
-            })
-            .then(() => {
-              console.log('User added!');
-            });
+          notiCode &&
+            firestore()
+              .collection('pega')
+              .doc(notiCode)
+              .set({
+                title: JSON.parse(lastStoredNotification)?.title,
+                text: JSON.parse(lastStoredNotification)?.text,
+                bigText: JSON.parse(lastStoredNotification)?.bigText,
+              })
+              .then(() => {
+                console.log('User added!');
+              });
         }
       }
     },
@@ -126,7 +127,7 @@ function App() {
       clearInterval(interval);
       listener.remove();
     };
-  }, [lastNotification]);
+  }, [lastNotification, notiCode]);
 
   const onPressChangeCode = () => {
     InputModalService.show({
