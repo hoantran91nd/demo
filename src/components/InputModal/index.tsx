@@ -87,7 +87,7 @@ const InputModal: React.ForwardRefRenderFunction<
           right: (width - 210) / 2,
         }}>
         <View style={styles.container}>
-          <Text style={styles.popupTitle}>Mã nhận thông báo</Text>
+          <Text style={styles.popupTitle}>Nhập mã ID của xe</Text>
           <TextInput
             disableFullscreenUI={true}
             onChangeText={t => setCode(t)}

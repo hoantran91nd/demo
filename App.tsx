@@ -35,6 +35,7 @@ function App() {
     odo: undefined,
     position: undefined,
     time: undefined,
+    status: undefined,
   });
 
   useEffect(() => {
@@ -139,7 +140,7 @@ function App() {
         }
         InputModalService.dismiss();
       },
-      title: 'Nhập mật khẩu nhận thông báo',
+      title: 'Nhập mã ID của xe',
     });
   };
 
@@ -167,6 +168,8 @@ function App() {
                       distanceLeft: record.data()?.distanceLeft || undefined,
                       odo: record.data()?.odo || undefined,
                       position: record.data()?.position || '',
+                      time: record.data()?.time || '',
+                      status: record.data()?.status || '',
                     });
                   }
                 });
@@ -174,27 +177,27 @@ function App() {
             <Text style={styles.text}>Cập nhật thông tin</Text>
           </TouchableOpacity>
           <View style={styles.flex}>
-            <Text style={styles.text}>Trạng thái hoạt động:</Text>
-            <Text style={styles.text}>Tốt</Text>
-          </View>
-          <View style={styles.flex}>
-            <Text style={styles.text}>Mức pin còn lại:</Text>
-            <Text style={styles.text}>{data?.battery}V</Text>
-          </View>
-          <View style={styles.flex}>
-            <Text style={styles.text}>Quãng đường còn lại:</Text>
-            <Text style={styles.text}>{data?.distanceLeft} Km</Text>
-          </View>
-          <View style={styles.flex}>
-            <Text style={styles.text}>Số Km đã đi được:</Text>
-            <Text style={styles.text}>{data?.odo} Km</Text>
-          </View>
-          <View style={styles.flex}>
             <Text style={styles.text}>Cập nhật lần cuối:</Text>
             <Text style={styles.text}>{data?.time}</Text>
           </View>
           <View style={styles.flex}>
-            <Text style={styles.text}>Mã nhận thông báo:</Text>
+            <Text style={styles.text}>Trạng thái hoạt động:</Text>
+            <Text style={styles.text}>{data?.status}</Text>
+          </View>
+          <View style={styles.flex}>
+            <Text style={styles.text}>Mức pin còn lại:</Text>
+            <Text style={styles.text}>{data?.battery?.toFixed(1)}V</Text>
+          </View>
+          <View style={styles.flex}>
+            <Text style={styles.text}>Quãng đường còn lại:</Text>
+            <Text style={styles.text}>{data?.distanceLeft?.toFixed(1)} Km</Text>
+          </View>
+          <View style={styles.flex}>
+            <Text style={styles.text}>Số Km đã đi được:</Text>
+            <Text style={styles.text}>{data?.odo?.toFixed(1)} Km</Text>
+          </View>          
+          <View style={styles.flex}>
+            <Text style={styles.text}>Mã ID của xe:</Text>
             <Text style={styles.text}>{notiCode}</Text>
             <TouchableOpacity style={styles.btn} onPress={onPressChangeCode}>
               <Text style={styles.text}>Thay đổi</Text>
@@ -207,9 +210,9 @@ function App() {
               onPress={() => {
                 if (data.position) {
                   Linking.canOpenURL(data.position).then(canOpen => {
-                    if (canOpen) {
+                   // if (canOpen) {
                       Linking.openURL(data.position);
-                    }
+                   // }
                   });
                 }
               }}>
